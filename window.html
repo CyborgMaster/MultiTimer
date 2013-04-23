@@ -1,8 +1,24 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <title>Multi-Timer</title>
+    <script src="jquery-2.0.0.min.js"></script>
+    <!--<script src="dustProxy.js"></script>-->
+    <script src="nunjucks-dev.js"></script>
+    <script src="window.js"></script>
+    <!-- <script id="timer-template" type="text/x-dust-template"> -->
+    <!--   {#timers} -->
+    <!--   <div>Name: {title}, Duration:{ </div> -->
+    <!--   {/timers} -->
+    <!-- </script> -->
+    <script id="timer-template" type="text/x-dust-template">
+      hi
+    </script>
   </head>
   <body>
-    <div>Hello, world!</div>
+    <div>Timers:</div><br>
+    <div id="timers"></div>
+    <div id="message"></div>
+    <button id="button">test</button>
   </body>
 </html>
