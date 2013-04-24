@@ -4,24 +4,22 @@
     <title>Multi-Timer</title>
     <link rel="stylesheet" type="text/css" href="/stylesheets/window.css">
     <script src="jquery-2.0.0.min.js"></script>
+    <script src="utility.js"></script>
     <script src="nunjucksProxy.js"></script>
     <script src="window.js"></script>
     <script id="timer-template" type="text/x-nunjucks-template">
       <div class="timer">
-        Name: <span class="title">
-          {{ timer.title }}
-        </span>,
-        Duration: <span class="duration">
-          {{ timer.length | formatTimer }}
-        </span>,
-        Remaining: <span class="remaining">
-          {{ timer.remaining | formatTimer }}
-        </span>
+        <div class="title"></div>
+        <div class="remaining"></div>
+        <div class="duration"></div>
+        <div class="controls">
+          <button class="startstop">start</button>
+          <button class="reset">reset</button>
+        </div>
       </div>
     </script>
   </head>
   <body>
-    <div>Timers:</div><br>
     <div id="timers"></div>
     <div id="message"></div>
     <br><br>
