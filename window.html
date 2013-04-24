@@ -3,18 +3,31 @@
   <head>
     <title>Multi-Timer</title>
     <link rel="stylesheet" type="text/css" href="/stylesheets/window.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/font-awesome.css">
     <script src="jquery-2.0.0.min.js"></script>
     <script src="utility.js"></script>
     <script src="nunjucksProxy.js"></script>
     <script src="window.js"></script>
     <script id="timer-template" type="text/x-nunjucks-template">
       <div class="timer">
+        <i class="edit-button icon-pencil pull-right clear"></i>
         <div class="title"></div>
         <div class="remaining"></div>
         <div class="duration"></div>
         <div class="controls">
           <button class="startstop">start</button>
           <button class="reset">reset</button>
+        </div>
+        <div class="edit-container">
+          <div class="edit-controls">
+            <div class="edit-title">
+              Title: <input type="text"></input>
+            </div>
+            <div class="edit-duration">
+              Duration: <input type="text"></input>
+            </div>
+          </div>
+          <div class="close">^</div>
         </div>
       </div>
     </script>

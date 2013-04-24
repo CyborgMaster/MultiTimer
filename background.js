@@ -8,6 +8,12 @@ chrome.runtime.onSuspend.addListener(function() {
   console.log('Suspended!!!');
 });
 
+//connection for keeping background page awake
+chrome.runtime.onConnect.addListener(function(port) {
+  console.log('connected');
+});
+
+
 var lastCheck = +(new Date());
 var checkTimers = function() {
   var timerNum, timer, i,
@@ -55,8 +61,8 @@ var test = function() {
 var timerNotification = function(timer) {
   var notification = webkitNotifications.createNotification(
     'calculator-128.png',
-    'Timer!',
-    timer.title
+    timer.title,
+    'Timer has completed!'
   );
   notification.show();
   $('#sound')[0].play();

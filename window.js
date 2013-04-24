@@ -28,17 +28,59 @@ var updateTimers = function() {
 };
 
 var updateTimer = function($timer, timer) {
+  $timer.data('timer', timer);
   $timer.find('.title').text(timer.title);
   $timer.find('.duration').text(formatTimer(timer.length));
   $timer.find('.remaining').text(formatTimer(timer.remaining));
+
+  var $startButton = $timer.find('.startstop');
+  if (timer.running) {
+    $startButton.text('pause');
+  } else {
+    if (timer.remaining === timer.length || timer.remaining === 0) {
+      $startButton.text('start');
+    } else {
+      $startButton.text('resume');
+    }
+  }
+  $startButton.prop('disabled', timer.remaining === 0);
+
+  $timer.find('.reset').prop('disabled', timer.remaining === timer.length);
 };
 
+var startStop = function() {
+  var $timer = $(this).closest('.timer'),
+      timer = $timer.data('timer');
+  timer.running = !timer.running;
+  updateTimer($timer, timer);
+};
+
+var reset = function() {
+  var $timer = $(this).closest('.timer'),
+      timer = $timer.data('timer');
+  timer.remaining = timer.length;
+  timer.running = false;
+  updateTimer($timer, timer);
+};
+
+var closeEdit = function() {
+  var $edit = $(this).closest('.edit-container');
+  $edit.animate({ top: -$edit.outerHeight() });
+};
+
+//connect to the background page to keep it awake
+chrome.runtime.connect();
 
 $(document).ready(function() {
   nunjucks.compile('timer', $('#timer-template').html());
 
-  $("#test").click(function() {
+  $('#test').click(function() {
     console.log('test');
     background.test();
   });
+
+  $('#timers')
+    .on('click', 'button.startstop', startStop)
+    .on('click', 'button.reset', reset)
+    .on('click', '.close', closeEdit);
 });

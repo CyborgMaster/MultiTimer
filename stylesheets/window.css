@@ -69,10 +69,15 @@ html {
 }
 
 /* line 8, ../compass/window.scss */
+body, button {
+  font-family: proxima-nova,"Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+/* line 12, ../compass/window.scss */
 .timer {
   width: 220px;
   height: 166px;
-  border: 1px solid blue;
+  border: 1px solid #5fb3ce;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   -ms-border-radius: 5px;
@@ -80,32 +85,73 @@ html {
   border-radius: 5px;
   background-color: lightblue;
   float: left;
-  margin: 10px;
+  margin: 10px 0 10px 10px;
   text-align: center;
   font-size: 20px;
   position: relative;
+  overflow: hidden;
 }
-/* line 20, ../compass/window.scss */
+/* line 25, ../compass/window.scss */
+.timer i {
+  margin: 5px;
+  font-size: 12px;
+}
+/* line 30, ../compass/window.scss */
 .timer .duration, .timer .remaining, .timer .title {
   margin: 10px;
 }
-/* line 24, ../compass/window.scss */
+/* line 34, ../compass/window.scss */
 .timer .remaining {
   font-size: 48px;
 }
-/* line 28, ../compass/window.scss */
+/* line 38, ../compass/window.scss */
 .timer .controls {
   position: absolute;
   bottom: 10px;
   left: 0px;
   right: 0px;
 }
-/* line 34, ../compass/window.scss */
+/* line 44, ../compass/window.scss */
 .timer .controls button {
   font-size: 16px;
+  width: 75px;
+}
+/* line 50, ../compass/window.scss */
+.timer .edit-container {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 100%;
+  background-color: silver;
+  text-align: right;
+  font-size: 18px;
+  border: 1px solid darkgrey;
+}
+/* line 61, ../compass/window.scss */
+.timer .edit-container .edit-controls {
+  margin: 33px 5px;
+}
+/* line 63, ../compass/window.scss */
+.timer .edit-container .edit-controls > div {
+  margin-bottom: 20px;
+}
+/* line 68, ../compass/window.scss */
+.timer .edit-container .close {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 20px;
+  border-top: 1px solid darkgrey;
+  text-align: center;
+  color: darkgrey;
+  font-size: 15px;
+  padding-top: 4px;
+  box-sizing: border-box;
 }
 
-/* line 40, ../compass/window.scss */
+/* line 84, ../compass/window.scss */
 #message {
   clear: both;
 }
