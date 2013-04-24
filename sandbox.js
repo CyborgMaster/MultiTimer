@@ -1,8 +1,8 @@
 var templates = {};
 var env = new nunjucks.Environment({});
 
-env.addFilter('formatTime', function(millis) {
-  var sec = Math.floor(millis / 1000);
+env.addFilter('formatTimer', function(millis) {
+  var sec = Math.ceil(millis / 1000);
   var hours = Math.floor(sec / 3600);
   var minutes = Math.floor((sec - (hours * 3600)) / 60);
   var seconds = sec - (hours * 3600) - (minutes * 60);
@@ -14,6 +14,11 @@ env.addFilter('formatTime', function(millis) {
   return time;
 });
 
+env.addFilter('remaining', function(start, length) {
+  var remaining = start + length - +(new Date());
+  return remaining >= 0 ? remaining : 0;
+});
+
 window.addEventListener('message', function(event) {
   var command = event.data.command;
   var name = event.data.name || 'hello';
@@ -22,7 +27,8 @@ window.addEventListener('message', function(event) {
     event.source.postMessage({
       command: 'rendered',
       name: name,
-      html: templates[event.data.name].render(event.data.context)
+      html: templates[event.data.name].render(event.data.context),
+      callback: event.data.callback
     }, event.origin);
     break;
   case 'compile':
