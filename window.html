@@ -3,16 +3,12 @@
   <head>
     <title>Multi-Timer</title>
     <script src="jquery-2.0.0.min.js"></script>
-    <!--<script src="dustProxy.js"></script>-->
-    <script src="nunjucks-dev.js"></script>
+    <script src="nunjucksProxy.js"></script>
     <script src="window.js"></script>
-    <!-- <script id="timer-template" type="text/x-dust-template"> -->
-    <!--   {#timers} -->
-    <!--   <div>Name: {title}, Duration:{ </div> -->
-    <!--   {/timers} -->
-    <!-- </script> -->
     <script id="timer-template" type="text/x-dust-template">
-      hi
+      {% for timer in timers %}
+      <div>Name: {{ timer.title }}, Duration: {{ timer.length | formatTime }}</div>
+      {% endfor %}
     </script>
   </head>
   <body>

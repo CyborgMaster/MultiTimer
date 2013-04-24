@@ -6,17 +6,15 @@ chrome.runtime.getBackgroundPage(function(back) {
 });
 
 var showTimers = function() {
-  // dust.render('timer', {timers: timers}, function(err, out) {
-  //   $('#timers').html(out);
-  // });
-  $('#timers').html(tmpl.render());
-
+  console.log('rendering');
+  nunjucks.render('timer', {timers: timers}, function(html) {
+    $('#timers').html(html);
+  });
 };
 
 
 $(document).ready(function() {
-  //dust.compileFn($('#timer-template').html(), 'timer');
-  tmpl = new nunjucks.Template($('#timer-template').html());
+  nunjucks.compile('timer', $('#timer-template').html());
   $("#button").click(function() {
     console.log('test');
     background.test();
