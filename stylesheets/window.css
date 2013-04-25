@@ -63,17 +63,17 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
   display: block;
 }
 
-/* line 4, ../compass/window.scss */
+/* line 7, ../compass/window.scss */
 html {
   overflow: scroll;
 }
 
-/* line 8, ../compass/window.scss */
+/* line 11, ../compass/window.scss */
 body, button {
   font-family: proxima-nova,"Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 
-/* line 12, ../compass/window.scss */
+/* line 15, ../compass/window.scss */
 .timer {
   width: 220px;
   height: 166px;
@@ -91,52 +91,58 @@ body, button {
   position: relative;
   overflow: hidden;
 }
-/* line 25, ../compass/window.scss */
+/* line 28, ../compass/window.scss */
 .timer i {
   margin: 5px;
   font-size: 12px;
 }
-/* line 30, ../compass/window.scss */
+/* line 33, ../compass/window.scss */
+.timer .edit-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+/* line 39, ../compass/window.scss */
 .timer .duration, .timer .remaining, .timer .title {
   margin: 10px;
 }
-/* line 34, ../compass/window.scss */
+/* line 43, ../compass/window.scss */
 .timer .remaining {
   font-size: 48px;
 }
-/* line 38, ../compass/window.scss */
+/* line 47, ../compass/window.scss */
 .timer .controls {
   position: absolute;
   bottom: 10px;
   left: 0px;
   right: 0px;
 }
-/* line 44, ../compass/window.scss */
+/* line 53, ../compass/window.scss */
 .timer .controls button {
   font-size: 16px;
   width: 75px;
 }
-/* line 50, ../compass/window.scss */
+/* line 59, ../compass/window.scss */
 .timer .edit-container {
   position: absolute;
   left: 0;
   right: 0;
-  top: 0;
+  top: -168px;
   height: 100%;
   background-color: silver;
   text-align: right;
   font-size: 18px;
   border: 1px solid darkgrey;
 }
-/* line 61, ../compass/window.scss */
+/* line 70, ../compass/window.scss */
 .timer .edit-container .edit-controls {
   margin: 33px 5px;
 }
-/* line 63, ../compass/window.scss */
+/* line 72, ../compass/window.scss */
 .timer .edit-container .edit-controls > div {
   margin-bottom: 20px;
 }
-/* line 68, ../compass/window.scss */
+/* line 77, ../compass/window.scss */
 .timer .edit-container .close {
   position: absolute;
   left: 0;
@@ -147,11 +153,9 @@ body, button {
   text-align: center;
   color: darkgrey;
   font-size: 15px;
-  padding-top: 4px;
-  box-sizing: border-box;
 }
 
-/* line 84, ../compass/window.scss */
+/* line 91, ../compass/window.scss */
 #message {
   clear: both;
 }

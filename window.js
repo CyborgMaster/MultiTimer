@@ -68,6 +68,11 @@ var closeEdit = function() {
   $edit.animate({ top: -$edit.outerHeight() });
 };
 
+var openEdit = function() {
+  var $edit = $(this).closest('.timer').find('.edit-container');
+  $edit.animate({ top: 0 });
+};
+
 //connect to the background page to keep it awake
 chrome.runtime.connect();
 
@@ -82,5 +87,6 @@ $(document).ready(function() {
   $('#timers')
     .on('click', 'button.startstop', startStop)
     .on('click', 'button.reset', reset)
-    .on('click', '.close', closeEdit);
+    .on('click', '.close', closeEdit)
+    .on('click', '.edit-button', openEdit);
 });

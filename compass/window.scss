@@ -1,6 +1,9 @@
 @import "compass";
 @import "compass/reset";
 
+$timer-width: 220px;
+$timer-height: 166px;
+
 html {
   overflow: scroll;
 }
@@ -10,8 +13,8 @@ body, button {
 }
 
 .timer {
-  width: 220px;
-  height: 166px;
+  width: $timer-width;
+  height: $timer-height;
   border: 1px solid darken(lightblue, 20%);
   @include border-radius;
   background-color: lightblue;
@@ -25,6 +28,12 @@ body, button {
   i {
     margin: 5px;
     font-size: 12px;
+  }
+
+  .edit-button {
+    position: absolute;
+    top: 0;
+    right: 0;
   }
 
   .duration, .remaining, .title {
@@ -51,7 +60,7 @@ body, button {
     position: absolute;
     left: 0;
     right: 0;
-    top: 0;
+    top: -($timer-height + 2);
     height: 100%;
     background-color: silver;
     text-align: right;
@@ -75,8 +84,6 @@ body, button {
       text-align: center;
       color: darkgrey;
       font-size: 15px;
-      padding-top: 4px;
-      box-sizing: border-box;
     }
   }
 }
