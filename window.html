@@ -10,7 +10,8 @@
     <script src="window.js"></script>
     <script id="timer-template" type="text/x-nunjucks-template">
       <div class="timer">
-        <i class="edit-button icon-pencil"></i>
+        <i class="button edit-button icon-pencil"></i>
+        <i class="button delete-button icon-remove"></i>
         <div class="title"></div>
         <div class="remaining"></div>
         <div class="duration"></div>
@@ -34,9 +35,9 @@
   </head>
   <body>
     <div id="timers"></div>
+    <div id="new-timer" class="timer">
+      <i class="icon-plus"></i>
+    </div>
     <div id="message"></div>
-    <br><br>
-    <button id="test">test</button>
-
   </body>
 </html>

@@ -92,37 +92,44 @@ body, button {
   overflow: hidden;
 }
 /* line 28, ../compass/window.scss */
-.timer i {
-  margin: 5px;
-  font-size: 12px;
-}
-/* line 33, ../compass/window.scss */
-.timer .edit-button {
+.timer > i.button {
   position: absolute;
+  margin: 5px;
+  font-size: 14px;
+  cursor: pointer;
+}
+/* line 35, ../compass/window.scss */
+.timer .edit-button {
+  top: 0;
+  right: 15px;
+}
+/* line 40, ../compass/window.scss */
+.timer .delete-button {
   top: 0;
   right: 0;
 }
-/* line 39, ../compass/window.scss */
+/* line 45, ../compass/window.scss */
 .timer .duration, .timer .remaining, .timer .title {
   margin: 10px;
 }
-/* line 43, ../compass/window.scss */
+/* line 49, ../compass/window.scss */
 .timer .remaining {
   font-size: 48px;
 }
-/* line 47, ../compass/window.scss */
+/* line 53, ../compass/window.scss */
 .timer .controls {
   position: absolute;
   bottom: 10px;
   left: 0px;
   right: 0px;
 }
-/* line 53, ../compass/window.scss */
+/* line 59, ../compass/window.scss */
 .timer .controls button {
   font-size: 16px;
   width: 75px;
+  cursor: pointer;
 }
-/* line 59, ../compass/window.scss */
+/* line 66, ../compass/window.scss */
 .timer .edit-container {
   position: absolute;
   left: 0;
@@ -134,15 +141,15 @@ body, button {
   font-size: 18px;
   border: 1px solid darkgrey;
 }
-/* line 70, ../compass/window.scss */
+/* line 77, ../compass/window.scss */
 .timer .edit-container .edit-controls {
   margin: 33px 5px;
 }
-/* line 72, ../compass/window.scss */
+/* line 79, ../compass/window.scss */
 .timer .edit-container .edit-controls > div {
   margin-bottom: 20px;
 }
-/* line 77, ../compass/window.scss */
+/* line 84, ../compass/window.scss */
 .timer .edit-container .close {
   position: absolute;
   left: 0;
@@ -153,9 +160,25 @@ body, button {
   text-align: center;
   color: darkgrey;
   font-size: 15px;
+  cursor: pointer;
 }
 
-/* line 91, ../compass/window.scss */
+/* line 99, ../compass/window.scss */
 #message {
   clear: both;
+}
+
+/* line 104, ../compass/window.scss */
+#new-timer {
+  border: 1px solid #a0a0a0;
+  background-color: lightgrey;
+  display: table;
+  cursor: pointer;
+}
+/* line 110, ../compass/window.scss */
+#new-timer i {
+  display: table-cell;
+  vertical-align: middle;
+  font-size: 100px;
+  color: #868686;
 }

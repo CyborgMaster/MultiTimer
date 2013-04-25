@@ -47,16 +47,23 @@ var updateWindows = function() {
   }
 };
 
-var test = function() {
-  console.log('test function');
-  timers.push({
+var newTimer = function() {
+  var timer = {
     running: false,
-    length: 10000,
-    remaining: 10000,
-    title: 'test timer'
-  });
+    length: 0,
+    remaining: 0,
+    title: 'New Timer'
+  };
+
+  timers.push(timer);
+
+  return timer;
 };
 
+var deleteTimer = function(timer) {
+  var idx = timers.indexOf(timer);
+  timers.splice(idx, 1);
+};
 
 var timerNotification = function(timer) {
   var notification = webkitNotifications.createNotification(
@@ -73,6 +80,16 @@ var addWindow = function(win) {
   if (windows.indexOf(win) === -1) {
     windows.push(win);
   }
+};
+
+var test = function() {
+  console.log('test function');
+  timers.push({
+    running: false,
+    length: 10000,
+    remaining: 10000,
+    title: 'test timer'
+  });
 };
 
 setInterval(checkTimers, 1000);

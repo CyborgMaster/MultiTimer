@@ -8,27 +8,39 @@ chrome.runtime.getBackgroundPage(function(back) {
 });
 
 var updateTimers = function() {
-  var $timers = $('.timer'), i;
+  var $timers = $('#timers .timer'), i;
   //check for new timers
   if ($timers.length < timers.length) {
     for (i = $timers.length; i < timers.length; i++) {
       nunjucks.render('timer', {}, (function(i) { return function(html) {
         var $timer = $(html.trim());
-        updateTimer($timer, timers[i]);
-        $timer.appendTo('#timers');
+        $timer.data('timer', timers[i]);
+        updateTimer($timer);
+        var isNew = (newTimer === timers[i]);
+        $timer.hide().appendTo('#timers').show(function() {
+          if (isNew) {
+            openEdit($timer);
+            newTimer = null;
+          }
+        });
       };})(i));
     }
-  } //TODO add delete
+  }
 
   //update timers
-  $('.timer').each(function(index) {
-    updateTimer($(this), timers[index]);
+  $('#timers .timer').each(function(index) {
+    var $timer = $(this);
+    if (timers.indexOf($timer.data('timer')) === -1) {
+      $timer.hide(function() { $timer.remove(); });
+    } else {
+      updateTimer($(this));
+    }
   });
 
 };
 
-var updateTimer = function($timer, timer) {
-  $timer.data('timer', timer);
+var updateTimer = function($timer) {
+  var timer = $timer.data('timer');
   $timer.find('.title').text(timer.title);
   $timer.find('.duration').text(formatTimer(timer.length));
   $timer.find('.remaining').text(formatTimer(timer.remaining));
@@ -52,7 +64,7 @@ var startStop = function() {
   var $timer = $(this).closest('.timer'),
       timer = $timer.data('timer');
   timer.running = !timer.running;
-  updateTimer($timer, timer);
+  updateTimer($timer);
 };
 
 var reset = function() {
@@ -60,7 +72,7 @@ var reset = function() {
       timer = $timer.data('timer');
   timer.remaining = timer.length;
   timer.running = false;
-  updateTimer($timer, timer);
+  updateTimer($timer);
 };
 
 var closeEdit = function() {
@@ -74,17 +86,29 @@ var closeEdit = function() {
     timer.running = false;
   }
   timer.length = newLen;
-  updateTimer($timer, timer);
+  updateTimer($timer);
   $edit.animate({ top: -$edit.outerHeight() });
 };
 
-var openEdit = function() {
-  var $timer = $(this).closest('.timer'),
-      timer = $timer.data('timer'),
+var openEdit = function($timer) {
+  var timer = $timer.data('timer'),
       $edit = $timer.find('.edit-container');
   $edit.find('.edit-title').val(timer.title);
   $edit.find('.edit-duration').val(formatTimer(timer.length));
   $edit.animate({ top: 0 });
+};
+
+var newTimer = null;
+var addTimer = function() {
+  newTimer = background.newTimer();
+  updateTimers();
+};
+
+var removeTimer = function() {
+  var $timer = $(this).closest('.timer'),
+      timer = $timer.data('timer');
+  background.deleteTimer(timer);
+  updateTimers();
 };
 
 //connect to the background page to keep it awake
@@ -93,14 +117,14 @@ chrome.runtime.connect();
 $(document).ready(function() {
   nunjucks.compile('timer', $('#timer-template').html());
 
-  $('#test').click(function() {
-    console.log('test');
-    background.test();
-  });
-
   $('#timers')
     .on('click', 'button.startstop', startStop)
     .on('click', 'button.reset', reset)
     .on('click', '.close', closeEdit)
-    .on('click', '.edit-button', openEdit);
+    .on('click', '.edit-button', function() {
+        openEdit($(this).closest('.timer'));
+      })
+    .on('click', '.delete-button', removeTimer);
+
+  $('#new-timer').click(addTimer);
 });
