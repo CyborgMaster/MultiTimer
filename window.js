@@ -68,6 +68,12 @@ var closeEdit = function() {
       timer = $timer.data('timer'),
       $edit = $timer.find('.edit-container');
   timer.title = $edit.find('.edit-title').val();
+  var newLen = parseTimer($edit.find('.edit-duration').val());
+  if (timer.length != newLen) {
+    timer.remaining = newLen;
+    timer.running = false;
+  }
+  timer.length = newLen;
   updateTimer($timer, timer);
   $edit.animate({ top: -$edit.outerHeight() });
 };
