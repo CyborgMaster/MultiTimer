@@ -64,12 +64,20 @@ var reset = function() {
 };
 
 var closeEdit = function() {
-  var $edit = $(this).closest('.edit-container');
+  var $timer = $(this).closest('.timer'),
+      timer = $timer.data('timer'),
+      $edit = $timer.find('.edit-container');
+  timer.title = $edit.find('.edit-title').val();
+  updateTimer($timer, timer);
   $edit.animate({ top: -$edit.outerHeight() });
 };
 
 var openEdit = function() {
-  var $edit = $(this).closest('.timer').find('.edit-container');
+  var $timer = $(this).closest('.timer'),
+      timer = $timer.data('timer'),
+      $edit = $timer.find('.edit-container');
+  $edit.find('.edit-title').val(timer.title);
+  $edit.find('.edit-duration').val(formatTimer(timer.length));
   $edit.animate({ top: 0 });
 };
 
