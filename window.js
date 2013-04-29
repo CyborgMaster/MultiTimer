@@ -110,6 +110,11 @@ var addTimer = function() {
 var removeTimer = function() {
   var $timer = $(this).closest('.timer'),
       timer = $timer.data('timer');
+  if ($timer.prev().length > 0) {
+    $timer.prev().focus();
+  } else {
+    $timer.next().focus();
+  }
   background.deleteTimer(timer);
   updateTimers();
 };
@@ -174,7 +179,5 @@ $(document).ready(function() {
     .on('keydown', '.timer', timerKeydown);
 
   $('#new-timer').click(addTimer);
-
-  $('body').keydown(winKeydown);
 
 });
