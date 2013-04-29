@@ -1,3 +1,5 @@
+//TODO: cancel edit
+
 var background, timers, tmpl;
 
 //get timers
@@ -22,10 +24,13 @@ var updateTimers = function() {
             openEdit($timer);
             newTimer = null;
           }
+          $timer.focus();
         });
       };})(i));
     }
   }
+
+  //TODO: check for removed timers
 
   //update timers
   $('#timers .timer').each(function(index) {
@@ -60,24 +65,21 @@ var updateTimer = function($timer) {
   $timer.find('.reset').prop('disabled', timer.remaining === timer.length);
 };
 
-var startStop = function() {
-  var $timer = $(this).closest('.timer'),
-      timer = $timer.data('timer');
+var startStop = function($timer) {
+  var timer = $timer.data('timer');
   timer.running = !timer.running;
   updateTimer($timer);
 };
 
-var reset = function() {
-  var $timer = $(this).closest('.timer'),
-      timer = $timer.data('timer');
+var reset = function($timer) {
+  var timer = $timer.data('timer');
   timer.remaining = timer.length;
   timer.running = false;
   updateTimer($timer);
 };
 
-var closeEdit = function() {
-  var $timer = $(this).closest('.timer'),
-      timer = $timer.data('timer'),
+var closeEdit = function($timer) {
+  var timer = $timer.data('timer'),
       $edit = $timer.find('.edit-container');
   timer.title = $edit.find('.edit-title').val();
   var newLen = parseTimer($edit.find('.edit-duration').val());
@@ -87,6 +89,7 @@ var closeEdit = function() {
   }
   timer.length = newLen;
   updateTimer($timer);
+  $timer.focus();
   $edit.animate({ top: -$edit.outerHeight() });
 };
 
@@ -94,7 +97,7 @@ var openEdit = function($timer) {
   var timer = $timer.data('timer'),
       $edit = $timer.find('.edit-container');
   $edit.find('.edit-title').val(timer.title);
-  $edit.find('.edit-duration').val(formatTimer(timer.length));
+  $edit.find('.edit-duration').val(formatTimer(timer.length)).focus().select();
   $edit.animate({ top: 0 });
 };
 
@@ -111,6 +114,42 @@ var removeTimer = function() {
   updateTimers();
 };
 
+var editKeypress = function(event) {
+  if (event.which == 13) {
+    closeEdit($(this).closest('.timer'));
+  }
+};
+
+var timerKeydown = function(event) {
+  if ($(document.activeElement).is('input')) return;
+  var $timer = $(this);
+
+  switch (event.which) {
+  case 37: //left arrow
+    $timer.prev().focus();
+    event.preventDefault();
+    break;
+  case 39: //right arrow
+    $timer.next().focus();
+    event.preventDefault();
+    break;
+  case 69: //e
+    openEdit($timer);
+    event.preventDefault();
+    break;
+  case 82: //r
+    if (!event.metaKey) {
+      reset($timer);
+      event.preventDefault();
+    }
+    break;
+  case 32: //space
+    startStop($timer);
+    event.preventDefault();
+    break;
+  }
+};
+
 //connect to the background page to keep it awake
 chrome.runtime.connect();
 
@@ -118,13 +157,24 @@ $(document).ready(function() {
   nunjucks.compile('timer', $('#timer-template').html());
 
   $('#timers')
-    .on('click', 'button.startstop', startStop)
-    .on('click', 'button.reset', reset)
-    .on('click', '.close', closeEdit)
+    .on('click', 'button.startstop', function() {
+      startStop($(this).closest('.timer'));
+    })
+    .on('click', 'button.reset', function() {
+      reset($(this).closest('.timer'));
+    })
+    .on('click', '.close', function() {
+      closeEdit($(this).closest('.timer'));
+    })
     .on('click', '.edit-button', function() {
         openEdit($(this).closest('.timer'));
       })
-    .on('click', '.delete-button', removeTimer);
+    .on('click', '.delete-button', removeTimer)
+    .on('keypress', 'input', editKeypress)
+    .on('keydown', '.timer', timerKeydown);
 
   $('#new-timer').click(addTimer);
+
+  $('body').keydown(winKeydown);
+
 });

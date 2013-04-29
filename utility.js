@@ -14,9 +14,18 @@ var formatTimer = function(millis) {
 var parseTimer = function(str) {
   var vals = str.trim().split(':'),
       len = vals.length,
-      sec = parseInt(vals[len - 1]),
-      min = len <= 1 ? 0 : parseInt(vals[len - 2]),
-      hours = len <= 2 ? 0 : parseInt(vals[len - 3]);
+      sec = 0, min = 0, hours = 0;
+
+  if (len === 1) {
+    min = parseInt(vals[0]);
+  } else if (len === 2) {
+    min = parseInt(vals[0]);
+    sec = parseInt(vals[1]);
+  } else {
+    hours = parseInt(vals[0]);
+    min = parseInt(vals[1]);
+    sec = parseInt(vals[2]);
+  }
 
   return sec * 1000 + min * 1000 * 60 + hours * 1000 * 60 * 60;
 };

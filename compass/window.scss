@@ -25,6 +25,11 @@ body, button {
   position: relative;
   overflow: hidden;
 
+  &:focus {
+    outline: none;
+    border: 1px solid complement(darken(lightblue, 20%));
+  }
+
   > i.button {
     position: absolute;
     margin: 5px;
