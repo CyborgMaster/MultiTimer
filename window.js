@@ -1,9 +1,14 @@
 //TODO: cancel edit
+//      persist timers on close
 
 var background, timers, tmpl;
 
+var getTimers = function() {
+  return $('#timers .timer:not(.ui-sortable-placeholder)');
+};
+
 var updateTimers = function() {
-  var $timers = $('#timers .timer'), i;
+  var $timers = getTimers(), i;
   //check for new timers
   if ($timers.length < timers.length) {
     for (i = $timers.length; i < timers.length; i++) {
@@ -25,12 +30,16 @@ var updateTimers = function() {
   }
 
   //update timers
-  $('#timers .timer').each(function(index) {
-    var $timer = $(this);
-    if (timers.indexOf($timer.data('timer')) === -1) {
-      //$timer.hide(function() { $timer.remove(); });
+  getTimers().each(function(idx) {
+    var $timer = $(this),
+        timerIndex = timers.indexOf($timer.data('timer'));
+    if (timerIndex === -1) {
+      $timer.hide(function() { $timer.remove(); });
     } else {
-      updateTimer($(this));
+      if (timerIndex != idx) {
+        $timer.data('timer', timers[idx]);
+      }
+      updateTimer($timer);
     }
   });
 
@@ -163,7 +172,17 @@ $(document).ready(function() {
         left: $newTimer.outerWidth() / 2,
         top: $newTimer.outerHeight() / 2
       },
-      distance: 10
+      distance: 10,
+      tolerance: 'pointer',
+      start: function(event, ui) {
+        ui.item.focus();
+      },
+      stop: function(event, ui) {
+        ui.item.focus();
+        getTimers().each(function(idx) {
+          timers[idx] = $(this).data('timer');
+        });
+      }
     })
     .on('click', 'button.startstop', function() {
       startStop($(this).closest('.timer'));
