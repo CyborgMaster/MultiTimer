@@ -2,13 +2,6 @@
 
 var background, timers, tmpl;
 
-//get timers
-chrome.runtime.getBackgroundPage(function(back) {
-  background = back;
-  timers = background.timers;
-  background.addWindow(window);
-});
-
 var updateTimers = function() {
   var $timers = $('#timers .timer'), i;
   //check for new timers
@@ -20,23 +13,22 @@ var updateTimers = function() {
         updateTimer($timer);
         var isNew = (newTimer === timers[i]);
         $timer.hide().appendTo('#timers').show(function() {
+          $timer.focus();
           if (isNew) {
             openEdit($timer);
             newTimer = null;
           }
-          $timer.focus();
+          $('#timers').sortable('refresh');
         });
       };})(i));
     }
   }
 
-  //TODO: check for removed timers
-
   //update timers
   $('#timers .timer').each(function(index) {
     var $timer = $(this);
     if (timers.indexOf($timer.data('timer')) === -1) {
-      $timer.hide(function() { $timer.remove(); });
+      //$timer.hide(function() { $timer.remove(); });
     } else {
       updateTimer($(this));
     }
@@ -161,7 +153,18 @@ chrome.runtime.connect();
 $(document).ready(function() {
   nunjucks.compile('timer', $('#timer-template').html());
 
-  $('#timers')
+  var $timers = $('#timers'),
+      $newTimer = $('#new-timer');
+
+  $timers
+    .sortable({
+      cursor: "move",
+      cursorAt: {
+        left: $newTimer.outerWidth() / 2,
+        top: $newTimer.outerHeight() / 2
+      },
+      distance: 10
+    })
     .on('click', 'button.startstop', function() {
       startStop($(this).closest('.timer'));
     })
@@ -176,8 +179,23 @@ $(document).ready(function() {
       })
     .on('click', '.delete-button', removeTimer)
     .on('keypress', 'input', editKeypress)
-    .on('keydown', '.timer', timerKeydown);
+    .on('keydown', '.timer', timerKeydown)
+    .on('click', '.timer', function() {
+      $(this).focus();
+    });
 
-  $('#new-timer').click(addTimer);
+  //Bug workaround, see http://bugs.jqueryui.com/ticket/7498
+  //  and http://bugs.jqueryui.com/ticket/6702
+  $timers.data('ui-sortable').floating = true;
+
+  $newTimer.click(addTimer);
+
+
+  //get timers
+  chrome.runtime.getBackgroundPage(function(back) {
+    background = back;
+    timers = background.timers;
+    background.addWindow(window);
+  });
 
 });
